@@ -7,12 +7,11 @@ ul li a {
   color: #fff;
 }
 .event_list {
-  background-image: none;
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ccc));  
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ccc));
 }
 
 .toolbar {
-  
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#999), to(#000));  
 }
 
 
@@ -20,5 +19,14 @@ span.small_subinfo {
   font-size: 0.7em;
   color: #999;
   padding-bottom: 10px;
+  display: block;
+}
+
+span.with_date {
+  color: red;
+}
+
+span.event_title {
+  margin-bottom: 5px;
   display: block;
 }

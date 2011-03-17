@@ -20,7 +20,6 @@ h1, h2 {
     border-bottom: 1px solid #2d3642;
     padding: 10px;
     height: 45px;
-    background: url(img/toolbar.png) #6d84a2 repeat-x;
     position: relative;
 }
 
@@ -136,11 +135,8 @@ h1 + ul, h2 + ul, h3 + ul, h4 + ul, h5 + ul, h6 + ul {
 ul {
     color: black;
     background: #fff;
-    border: 1px solid #B4B4B4;
     font: bold 17px Helvetica;
     padding: 0;
-    margin: 15px 10px 17px 10px;
-    -webkit-border-radius: 8px;
 }
 
 ul li {
@@ -154,13 +150,9 @@ ul li {
 
 li:first-child, li:first-child a {
     border-top: 0;
-    -webkit-border-top-left-radius: 8px;
-    -webkit-border-top-right-radius: 8px;
 }
 
 li:last-child, li:last-child a {
-    -webkit-border-bottom-left-radius: 8px;
-    -webkit-border-bottom-right-radius: 8px;
 }
 
 /* universal arrows */

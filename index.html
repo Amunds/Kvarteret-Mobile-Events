@@ -13,7 +13,7 @@
     <script src="jqtouch/jqtouch.transitions.js" type="application/x-javascript" charset="utf-8"></script>
     <script src="application.js"></script>
     <style type="text/css" media="screen">@import "jqtouch/jqtouch.css";</style>
-    <style type="text/css" media="screen">@import "jqtouch/themes/kvarteret/theme.min.css";</style>
+    <style type="text/css" media="screen">@import "jqtouch/themes/kvarteret/theme.css";</style>
     <style type="text/css" media="screen">@import "application.css";</style>
   </head>
   <body>
@@ -24,12 +24,12 @@
       <script type="text/html" id="item_template">
         <li class='event_list arrow'>
           <a href='#event_${id}' id='${id}'>
-            ${title}
+            <span class="event_title">${title}</span>
             <span class="small_subinfo">
             ${categories} i ${commonLocation.name}
             </span>
-            <span class="small_subinfo">
-              ${startTime} - ${startDate} til ${endTime} - ${endDate}
+            <span class="small_subinfo with_date">
+              ${startTime}
             </span>
           </a>
         </li>
