@@ -1,0 +1,24 @@
+ul li a {
+  padding-bottom: 5px;
+}
+
+.date_header {
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f24122), to(#9b160f));
+  color: #fff;
+}
+.event_list {
+  background-image: none;
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ccc));  
+}
+
+.toolbar {
+  
+}
+
+
+span.small_subinfo {
+  font-size: 0.7em;
+  color: #999;
+  padding-bottom: 10px;
+  display: block;
+}

@@ -1,29 +1,27 @@
 $(function() {
-  $.getJSON("http://et.kvarteret.no/endre/kvarteret_symfony_events/web/api/json/upcomingEvents?limit=10&offset=0", function(data) {
-    $("#items").html($("#item_template").tmpl(data.data));
+  $.getJSON("http://et.kvarteret.no/endre/kvarteret_symfony_events/web/api/json/upcomingEvents?limit=20&offset=0&callback=?", function(data) {
+    var dates = {};
+    $.each(data.data, function(index) {
+     if (typeof(dates[this.startDate]) == 'undefined') {
+       dates[this.startDate] = new Array();
+     }
+     dates[this.startDate].push(index);
+    });
+    $("#items").html('');
+    $.each(dates, function(date) {
+      $("#items").append($('<li class="date_header">' + date + '</li>'));
+      $.each(this, function (index, eventIndex) {
+        var event = data.data[eventIndex];
+        $("#items").append($("#item_template").tmpl(event));
+     });
+    });
+    
+    //$("#items").html($("#item_template").tmpl(data.data));
     $("#home").after($("#event_template").tmpl(data.data));
   });
 });
+
 $.jQTouch({
     icon: 'jqtouch.png',
-    statusBar: 'black-translucent',
-    preloadImages: [
-        'jqtouch/themes/apple/img/backButton.png',
-        'jqtouch/themes/apple/img/blueButton.png',
-        'jqtouch/themes/apple/img/cancel.png',
-        'jqtouch/themes/apple/img/chevron.png',
-        'jqtouch/themes/apple/img/grayButton.png',
-        'jqtouch/themes/apple/img/listArrowSel.png',
-        'jqtouch/themes/apple/img/listGroup.png',
-        'jqtouch/themes/apple/img/loading.gif',
-        'jqtouch/themes/apple/img/on_off.png',
-        'jqtouch/themes/apple/img/pinstripes.png',
-        'jqtouch/themes/apple/img/selection.png',
-        'jqtouch/themes/apple/img/thumb.png',
-        'jqtouch/themes/apple/img/toggle.png',
-        'jqtouch/themes/apple/img/toggleOn.png',
-        'jqtouch/themes/apple/img/toolbar.png',
-        'jqtouch/themes/apple/img/toolButton.png',
-        'jqtouch/themes/apple/img/whiteButton.png'
-        ]
+    statusBar: 'black-translucent'
 });
