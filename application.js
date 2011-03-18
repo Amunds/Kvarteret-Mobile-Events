@@ -1,4 +1,4 @@
-var eventServer = "http://et.kvarteret.no/endre/kvarteret_symfony_events/web";
+var eventServer = "http://et.kvarteret.no/endre/kvarteret_events/web";
 
 var queryParams = {
   limit: 20,
