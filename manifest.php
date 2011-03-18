@@ -12,6 +12,10 @@ $excludeDirs = array(
   './.git/',
 );
 
+$network = array(
+  //'http://et.kvarteret.no/endre/kvarteret_symfony_events/web/api',
+  '*',
+);
 
 /**
  * This simple script will create a manifest file for offline web apps.
@@ -40,6 +44,10 @@ echo "CACHE MANIFEST\n";
 
 $hashes = "";
 
+if (!empty($network)) {
+  echo "CACHE:\n";
+}
+
 $dir = new RecursiveDirectoryIterator(".");
 foreach(new RecursiveIteratorIterator($dir) as $file) {
   if ($file->IsFile() &&
@@ -47,8 +55,17 @@ foreach(new RecursiveIteratorIterator($dir) as $file) {
       (strpos_array($file, $excludeDirs) === false) &&
       (substr($file->getFilename(), 0, 1) != "."))
   {
+    //echo dirname($_SERVER['PHP_SELF']) . substr($file->__toString(), 1) . "\n";
     echo $file . "\n";
     $hashes .= md5_file($file);
+  }
+}
+
+if (!empty($network)) {
+  echo "NETWORK:\n";
+  foreach ($network as $n) {
+    $hashes .= md5($n);
+    echo $n . "\n";
   }
 }
 
