@@ -26,7 +26,10 @@
           <a href='#event_${id}' id='${id}'>
             <span class="event_title">${title}</span>
             <span class="small_subinfo">
-            ${categories} i ${commonLocation.name}
+            {{each categories}}
+              ${$value.name}{{if $index < categories.length-1}}, {{/if}}
+            {{/each}}
+            i {{if location_id > 0}} ${commonLocation.name} {{else}} ${customLocation} {{/if}}
             </span>
             <span class="small_subinfo with_date">
               ${startTime}
