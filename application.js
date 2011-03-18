@@ -1,7 +1,12 @@
 var eventServer = "http://et.kvarteret.no/endre/kvarteret_symfony_events/web";
 
+var queryParams = {
+  limit: 20,
+  offset: 0,
+};
+
 $(function() {
-  $.getJSON(eventServer + "/api/json/upcomingEvents?limit=20&offset=0&callback=?", function(data) {
+  $.getJSON(eventServer + "/api/json/upcomingEvents?callback=?", queryParams,function(data) {
     var dates = {};
     $.each(data.data, function(index) {
      if (typeof(dates[this.startDate]) == 'undefined') {
