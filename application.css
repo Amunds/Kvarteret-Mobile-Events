@@ -15,7 +15,6 @@ ul li a {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#999), to(#000));  
 }
 
-
 span.small_subinfo {
   font-size: 0.7em;
   color: #999;
@@ -35,4 +34,9 @@ span.event_title {
 p {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
+}
+
+.event p {
+  padding-left: 10px;
+  padding-right: 10px;
 }
