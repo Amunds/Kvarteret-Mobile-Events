@@ -6,7 +6,8 @@ ul li a {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f24122), to(#9b160f));
   color: #fff;
 }
-.event_list {
+.event_list, 
+.event {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ccc));
 }
 
