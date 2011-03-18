@@ -47,9 +47,13 @@
           <h1>${title}</h1>
           <a class="button back" href="#">Tilbake</a>
         </div>
+        {{if startDate == endDate}}
+        <p>${startDate} ${startTime} til ${endTime}</p>
+        {{else}}
         <p>${startTime} - ${startDate} til ${endTime} - ${endDate}</p>
+        {{/if}}
         <p>${leadParagraph}</p>
-        ${description}
+        {{html description}}
       </div>
     </script>
   </body>
