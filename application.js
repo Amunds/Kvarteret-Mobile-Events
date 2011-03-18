@@ -27,28 +27,46 @@ function formatTime(timeString) {
   return hour + ':' + minute;
 }
 
-$(function() {
-  $.retrieveJSON(eventServer + "/api/json/upcomingEvents?callback=?", queryParams,function(data) {
-    var dates = {};
-    $.each(data.data, function(index) {
-     if (typeof(dates[this.startDate]) == 'undefined') {
-       dates[this.startDate] = new Array();
-     }
-     dates[this.startDate].push(index);
-    });
-    $("#items").html('');
-    $.each(dates, function(date) {
-      $("#items").append($('<li class="date_header">' + formatDate(date) + '</li>'));
-      $.each(this, function (index, eventIndex) {
-        var event = data.data[eventIndex];
-        $("#items").append($("#item_template").tmpl(event));
-     });
-    });
-    
-    //$("#items").html($("#item_template").tmpl(data.data));
-    $("#home").after($("#event_template").tmpl(data.data));
+function addEventsToList(data, clear) {
+  if (clear == true) {
+    $("#items").empty();
+    $(".event").empty().remove();
+  }
+
+  var dates = {};
+  $.each(data.data, function(index) {
+    if (typeof(dates[this.startDate]) == 'undefined') {
+      dates[this.startDate] = new Array();
+    }
+    dates[this.startDate].push(index);
   });
+  
+  $.each(dates, function(date) {
+    $("#items").append($('<li class="date_header">' + formatDate(date) + '</li>'));
+    $.each(this, function (index, eventIndex) {
+      var event = data.data[eventIndex];
+      $("#items").append($("#item_template").tmpl(event));
+    });
+  });
+    
+  //$("#items").html($("#item_template").tmpl(data.data));
+  $("#home").after($("#event_template").tmpl(data.data));
+}
+
+function refreshEvents () {
+  $.retrieveJSON(eventServer + "/api/json/upcomingEvents?callback=?", queryParams,function(data) {
+    addEventsToList(data, true);
+  });
+}
+
+$(document).ready(function () {
+  refreshEvents();
+  $('#refreshEvents').click(refreshEvents);
 });
+
+//$(function() {
+//  refreshEvents();
+//});
 
 $.jQTouch({
     icon: 'jqtouch.png',
