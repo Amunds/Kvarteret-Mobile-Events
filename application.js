@@ -38,7 +38,7 @@ $(function() {
     });
     $("#items").html('');
     $.each(dates, function(date) {
-      $("#items").append($('<li class="date_header">' + date + '</li>'));
+      $("#items").append($('<li class="date_header">' + formatDate(date) + '</li>'));
       $.each(this, function (index, eventIndex) {
         var event = data.data[eventIndex];
         $("#items").append($("#item_template").tmpl(event));
