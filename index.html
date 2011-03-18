@@ -50,11 +50,15 @@
           <h1>${title}</h1>
           <a class="button back" href="#">Tilbake</a>
         </div>
+        <p class="event_details">
+        <b>Når:</b>
         {{if startDate == endDate}}
-        <p>${formatDate(startDate)} ${formatTime(startTime)} til ${formatTime(endTime)}</p>
+          ${formatDate(startDate)} ${formatTime(startTime)} til ${formatTime(endTime)}
         {{else}}
-        <p>${formatTime(startTime)} - ${formatDate(startDate)} til ${formatTime(endTime)} - ${formatDate(endDate)}</p>
-        {{/if}}
+          ${formatTime(startTime)} - ${formatDate(startDate)} til ${formatTime(endTime)} - ${formatDate(endDate)}
+        {{/if}}<br>
+        <b>Hvor:</b> {{if location_id > 0}} ${commonLocation.name} {{else}} ${customLocation} {{/if}}
+        </p>
         <p>{{html leadParagraph}}</p>
         {{html description}}
       </div>
