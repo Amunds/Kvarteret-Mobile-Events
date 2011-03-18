@@ -6,7 +6,7 @@ var queryParams = {
 };
 
 $(function() {
-  $.getJSON(eventServer + "/api/json/upcomingEvents?callback=?", queryParams,function(data) {
+  $.retrieveJSON(eventServer + "/api/json/upcomingEvents?callback=?", queryParams,function(data) {
     var dates = {};
     $.each(data.data, function(index) {
      if (typeof(dates[this.startDate]) == 'undefined') {
