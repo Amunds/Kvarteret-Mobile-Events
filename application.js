@@ -10,9 +10,9 @@ function formatDate(dateString) {
   var months = ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember'];
 
   var dateComponent = dateString.split('-');
-  var year = parseInt(dateComponent[0]);
-  var month = parseInt(dateComponent[1]) - 1;
-  var day = parseInt(dateComponent[2]);
+  var year = parseInt(dateComponent[0], 10);
+  var month = parseInt(dateComponent[1], 10) - 1;
+  var day = parseInt(dateComponent[2], 10);
 
   return day + '. '+ months[month] + ' ' + year;
 }
