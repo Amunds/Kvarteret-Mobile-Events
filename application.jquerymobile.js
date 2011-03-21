@@ -1,10 +1,3 @@
-var eventServer = "http://et.kvarteret.no/endre/kvarteret_events/web";
-
-var queryParams = {
-  limit: 20,
-  offset: 0,
-};
-
 function formatDate(dateString) {
   // Will format a date according to norwegian standards
   var months = ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember'];
@@ -27,47 +20,117 @@ function formatTime(timeString) {
   return hour + ':' + minute;
 }
 
-function addEventsToList(data, clear) {
-  if (clear == true) {
-    $("#items").empty();
-    $(".event").empty().remove();
-  }
+var eventApp;
 
-  var dates = {};
-  $.each(data.data, function(index) {
-    if (typeof(dates[this.startDate]) == 'undefined') {
-      dates[this.startDate] = new Array();
-    }
-    dates[this.startDate].push(index);
-  });
-  
-  $.each(dates, function(date) {
-    $("#items").append($('<li data-role="list-divider" class="date_header">' + formatDate(date) + '</li>'));
-    $.each(this, function (index, eventIndex) {
-      var event = data.data[eventIndex];
-      $("#items").append($("#item_template").tmpl(event));
-    });
-  });
+(function ($) {
+	var state = {}, loadMoreBtn, refreshBtn;
+	var eventServer = "http://et.kvarteret.no/endre/kvarteret_events/web";
 
-  //$("#items").html($("#item_template").tmpl(data.data));
-  $("#home").after($("#event_template").tmpl(data.data));
+	eventApp = {
 
-  $('#items').listview('refresh');
-  $(".event").page();
+		init : function () {
+			state.limit = 20;
+			state.offset = 0;
+			state.totalCount = 0;
 
-  $.mobile.pageLoading(true);
-}
+			loadMoreBtn = $('#loadMoreEvents');
+			loadMoreBtn.click(function () {
+				eventApp.loadMore();
+			});
 
-function refreshEvents () {
-  $.mobile.pageLoading();
-  $.retrieveJSON(eventServer + "/api/json/upcomingEvents?callback=?", queryParams,function(data) {
-    addEventsToList(data, true);
-  });
-}
+			refreshBtn = $('#refreshEvents');
+			refreshBtn.click(function () {
+				eventApp.refresh();
+			});
 
+			eventApp.refresh();
+		},
 
+		addEventsToList : function (data, clear) {
+			if (clear == true) {
+				$("#items").empty();
+				$(".event").empty().remove();
+			}
+
+			var dates = {};
+			$.each(data.data, function(index) {
+				if (typeof(dates[this.startDate]) == 'undefined') {
+					dates[this.startDate] = new Array();
+				}
+				dates[this.startDate].push(index);
+			});
+
+			$.each(dates, function(date) {
+				var dateId = 'date_' + date.replace('-', '_');
+
+				if ($('#' + dateId).length == 0) {
+					$("#items").append($('<li id="' + dateId + '" data-role="list-divider" class="date_header">' + formatDate(date) + '</li>'));
+				}
+
+				$.each(this, function (index, eventIndex) {
+					var event = data.data[eventIndex];
+					$("#items").append($("#item_template").tmpl(event));
+				});
+			});
+
+			$("#home").after($("#event_template").tmpl(data.data));
+
+			$('#items').listview('refresh');
+			$(".event").page();
+		},
+
+		canLoadMoreEvents : function () {
+			if ((state.offset + state.limit) < state.totalCount) {
+				loadMoreBtn.button('enable');
+			} else {
+				loadMoreBtn.button('disable');
+			}
+		},
+
+		refresh : function () {
+			var queryParams = {};
+
+			state.offset = 0;
+			state.totalCount = 0;
+
+			queryParams.limit = state.limit;
+			queryParams.offset = state.offset;
+
+			$.mobile.pageLoading();
+
+			eventApp.loadEvents(queryParams, function (data) {
+				eventApp.addEventsToList(data, true);
+				eventApp.canLoadMoreEvents();
+				$.mobile.pageLoading(true);
+			});
+		},
+
+		loadMore : function () {
+			var queryParams = {};
+
+			queryParams.limit = state.limit;
+			queryParams.offset = state.offset + state.limit;
+			
+			$.mobile.pageLoading();
+
+			eventApp.loadEvents(queryParams, function (data) {
+				eventApp.addEventsToList(data);
+				eventApp.canLoadMoreEvents();
+				$.mobile.pageLoading(true);
+			});
+		},
+
+		loadEvents : function (queryParams, callback) {
+			$.retrieveJSON(eventServer + "/api/json/upcomingEvents?callback=?", queryParams, function(data) {
+				state.offset = data.offset;
+				state.totalCount = data.totalCount;
+				state.limit = data.limit;
+				callback(data);
+			});
+		}
+	};
+})(jQuery);
 
 $(document).ready(function () {
-  refreshEvents();
-  $('#refreshEvents').click(refreshEvents);
+	eventApp.init();
 });
