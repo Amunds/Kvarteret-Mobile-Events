@@ -96,12 +96,9 @@ var eventApp;
 			queryParams.limit = state.limit;
 			queryParams.offset = state.offset;
 
-			$.mobile.pageLoading();
-
 			eventApp.loadEvents(queryParams, function (data) {
 				eventApp.addEventsToList(data, true);
 				eventApp.canLoadMoreEvents();
-				$.mobile.pageLoading(true);
 			});
 		},
 
@@ -110,22 +107,21 @@ var eventApp;
 
 			queryParams.limit = state.limit;
 			queryParams.offset = state.offset + state.limit;
-			
-			$.mobile.pageLoading();
 
 			eventApp.loadEvents(queryParams, function (data) {
 				eventApp.addEventsToList(data);
 				eventApp.canLoadMoreEvents();
-				$.mobile.pageLoading(true);
 			});
 		},
 
 		loadEvents : function (queryParams, callback) {
-			$.retrieveJSON(eventServer + "/api/json/upcomingEvents?callback=?", queryParams, function(data) {
+			$.mobile.pageLoading();
+			$.retrieveJSON(eventServer + "/api/json/filteredEvents?callback=?", queryParams, function(data) {
 				state.offset = data.offset;
 				state.totalCount = data.totalCount;
 				state.limit = data.limit;
 				callback(data);
+				$.mobile.pageLoading(true);
 			});
 		}
 	};
