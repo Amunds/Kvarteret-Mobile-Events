@@ -1,2 +1,5 @@
-ExpiresActive On
-ExpiresDefault "access"
+
+<ifModule mod_expires.c>
+ ExpiresActive On
+ ExpiresDefault "access"
+</ifModule>
