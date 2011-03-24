@@ -116,12 +116,16 @@ var eventApp;
 
 		loadEvents : function (queryParams, callback) {
 			$.mobile.pageLoading();
-			$.retrieveJSON(eventServer + "/api/json/filteredEvents?callback=?", queryParams, function(data) {
-				state.offset = data.offset;
-				state.totalCount = data.totalCount;
-				state.limit = data.limit;
-				callback(data);
-				$.mobile.pageLoading(true);
+			$.retrieveJSON(eventServer + "/api/json/filteredEvents?callback=?", queryParams, function(data, status) {
+				if (navigator.onLine && (status == 'cached')) {
+					return null;
+				} else {
+					state.offset = data.offset;
+					state.totalCount = data.totalCount;
+					state.limit = data.limit;
+					callback(data);
+					$.mobile.pageLoading(true);
+				}
 			});
 		}
 	};
