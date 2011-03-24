@@ -62,7 +62,7 @@
           ${formatTime(startTime)} - ${formatDate(startDate)} til ${formatTime(endTime)} - ${formatDate(endDate)}
         {{/if}}<br>
         <b>Hvor:</b> {{if location_id > 0}} ${commonLocation.name} {{else}} ${customLocation} {{/if}}
-        {{if covercharge.length > 0}}<br /><b>CC:</b> ${covercharge}{{/if}}
+        {{if (covercharge != null) && (covercharge.length > 0) }}<br /><b>CC:</b> ${covercharge}{{/if}}
         </p>
         <p>{{html leadParagraph}}</p>
         {{html description}}
