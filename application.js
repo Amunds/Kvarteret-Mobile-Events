@@ -72,7 +72,6 @@ var eventApp;
 					$("#items").append($("#item_template").tmpl(event));
 				});
 			});
-			$("#items").append($('<li class="date_header">finished loading</li>'));
 
 			$("#home").after($("#event_template").tmpl(data.data));
 		},
