@@ -98,7 +98,7 @@ var eventApp;
 
 			eventApp.loadEvents(queryParams, function (data) {
 				eventApp.addEventsToList(data, true);
-				eventApp.canLoadMoreEvents();
+				eventApp.canLoadMoreEvents(true);
 			});
 		},
 
@@ -112,7 +112,7 @@ var eventApp;
 
 			eventApp.loadEvents(queryParams, function (data) {
 				eventApp.addEventsToList(data);
-				eventApp.canLoadMoreEvents();
+				eventApp.canLoadMoreEvents(true);
 			});
 		},
 
