@@ -40,3 +40,7 @@ p {
   padding-left: 10px;
   padding-right: 10px;
 }
+
+#loadMoreEvents.disabled {
+  display: none;
+}
