@@ -34,8 +34,9 @@ var eventApp;
 			state.totalCount = 0;
 
 			loadMoreBtn = $('#loadMoreEvents');
-			loadMoreBtn.click(function () {
+			loadMoreBtn.click(function (e) {
 				eventApp.loadMore();
+				e.preventDefault();
 			});
 
 			refreshBtn = $('#refreshEvents');
