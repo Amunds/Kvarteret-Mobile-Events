@@ -40,15 +40,17 @@
         </div>
         <div data-role="content">
           <p class="event_details">
-          <b>Når:</b>
-          {{if startDate == endDate}}
-            ${formatDate(startDate)} ${formatTime(startTime)} til ${formatTime(endTime)}
-          {{else}}
-            ${formatTime(startTime)} - ${formatDate(startDate)} til ${formatTime(endTime)} - ${formatDate(endDate)}
-          {{/if}}<br>
-          <b>Hvor:</b> {{if location_id > 0}} ${commonLocation.name} {{else}} ${customLocation} {{/if}}
+            <b>Når:</b>
+            {{if startDate == endDate}}
+              ${formatDate(startDate)} ${formatTime(startTime)} til ${formatTime(endTime)}
+            {{else}}
+              ${formatTime(startTime)} - ${formatDate(startDate)} til ${formatTime(endTime)} - ${formatDate(endDate)}
+            {{/if}}<br>
+            <b>Hvor:</b> {{if location_id > 0}} ${commonLocation.name} {{else}} ${customLocation} {{/if}}
           </p>
-          <p>{{html leadParagraph}}</p>
+          <p>
+            {{html leadParagraph}}
+          </p>
           {{html description}}
         </div>
       </div>
@@ -58,10 +60,10 @@
         <a href='#event_${id}' id='${id}'>
           <span class="event_title">${title}</span>
           <span class="small_subinfo">
-          {{each categories}}
-            ${$value.name}{{if $index < categories.length-1}}, {{/if}}
-          {{/each}}
-          i {{if location_id > 0}} ${commonLocation.name} {{else}} ${customLocation} {{/if}}
+            {{each categories}}
+              ${$value.name}{{if $index < categories.length-1}}, {{/if}}
+            {{/each}}
+            i {{if location_id > 0}} ${commonLocation.name} {{else}} ${customLocation} {{/if}}
           </span>
           <span class="small_subinfo with_date">
             ${formatTime(startTime)}
