@@ -29,6 +29,8 @@ var eventApp;
 	eventApp = {
 
 		init : function () {
+			var t = this;
+
 			state.limit = 20;
 			state.offset = 0;
 			state.totalCount = 0;
@@ -41,6 +43,27 @@ var eventApp;
 			refreshBtn = $('#refreshEvents');
 			refreshBtn.click(function () {
 				eventApp.refresh();
+			});
+
+			jQuery(window).scrollstop(function (e) {
+				/**
+				 * This function is meant to be used when triggers are needed
+				 * on pages where scrollevents aare used
+				 */
+				var currentElem = $('.ui-page-active').eq(0); // Get the page with class attribute containing 'current', should be only one
+				var id = currentElem.attr('id');
+
+				var win = $(window);
+				var doc = $(document);
+
+				if (id == 'home') {
+					if ( (win.scrollTop() + win.height()) == doc.height() ) {
+						// We're at the bottom of the page
+						if (t.canLoadMoreEvents()) {
+							t.loadMore();
+						}
+					}
+				}
 			});
 
 			eventApp.refresh();
@@ -81,9 +104,9 @@ var eventApp;
 
 		canLoadMoreEvents : function () {
 			if ((state.offset + state.limit) < state.totalCount) {
-				loadMoreBtn.button('enable');
+				return true;
 			} else {
-				loadMoreBtn.button('disable');
+				return false;
 			}
 		},
 

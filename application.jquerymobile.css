@@ -1,0 +1,51 @@
+ul li a {
+  padding-bottom: 5px;
+}
+
+.date_header {
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f24122), to(#9b160f));
+  color: #fff;
+}
+
+.event_list {
+  white-space: nowrap;
+}
+
+.event_list a {
+  text-decoration: none;
+}
+
+.event_list, 
+.event {
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ccc));
+}
+
+.toolbar {
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#999), to(#000));  
+}
+
+span.small_subinfo {
+  font-size: 0.7em;
+  color: #999;
+  padding-bottom: 10px;
+  display: block;
+}
+
+span.with_date {
+  color: red;
+}
+
+span.event_title {
+  margin-bottom: 5px;
+  display: block;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.event p {
+  padding-left: 10px;
+  padding-right: 10px;
+}
