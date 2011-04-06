@@ -35,6 +35,7 @@
               ${$value.name}{{if $index < categories.length-1}}, {{/if}}
             {{/each}}
             i {{if location_id > 0}} ${commonLocation.name} {{else}} ${customLocation} {{/if}}
+            <br>${arranger.name}
             </span>
             <span class="small_subinfo with_date">
               ${formatTime(startTime)}
@@ -60,6 +61,7 @@
           ${formatTime(startTime)} - ${formatDate(startDate)} til ${formatTime(endTime)} - ${formatDate(endDate)}
         {{/if}}<br>
         <b>Hvor:</b> {{if location_id > 0}} ${commonLocation.name} {{else}} ${customLocation} {{/if}}
+        <br /><b>Arrangør:</b> ${arranger.name}
         {{if (covercharge != null) && (covercharge.length > 0) }}<br /><b>CC:</b> ${covercharge}{{/if}}
         </p>
         <p>{{html leadParagraph}}</p>
