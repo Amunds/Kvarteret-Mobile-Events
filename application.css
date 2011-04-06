@@ -18,17 +18,22 @@ ul li a {
 span.small_subinfo {
   font-size: 0.7em;
   color: #999;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
   display: block;
+  float: left;
 }
 
 span.with_date {
   color: red;
+  float: right;
+  padding-right: 20px;
 }
 
 span.event_title {
   margin-bottom: 5px;
   display: block;
+  padding-right: 20px;
+  white-space: normal;
 }
 
 p {
