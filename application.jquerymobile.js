@@ -35,11 +35,6 @@ var eventApp;
 			state.offset = 0;
 			state.totalCount = 0;
 
-			loadMoreBtn = $('#loadMoreEvents');
-			loadMoreBtn.click(function () {
-				eventApp.loadMore();
-			});
-
 			refreshBtn = $('#refreshEvents');
 			refreshBtn.click(function () {
 				eventApp.refresh();
