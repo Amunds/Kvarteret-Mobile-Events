@@ -55,3 +55,24 @@ p {
   margin-right: auto;
   width: 100%;
 }
+
+#progress {
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: rgba(0,0,0,.7);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    height: 80px;
+    left: 50%;
+    line-height: 80px;
+    /*margin: 0 auto;*/
+    margin-left: -100px;
+    position: absolute;
+    text-align: center;
+    top: 120px;
+    width: 200px;
+    /*display: inline-block;*/
+}
+
