@@ -45,6 +45,7 @@ var eventApp;
 				 * This function is meant to be used when triggers are needed
 				 * on pages where scrollevents aare used
 				 */
+
 				var currentElem = $('.current').eq(0); // Get the page with class attribute containing 'current', should be only one
 				var id = currentElem.attr('id');
 
@@ -52,7 +53,11 @@ var eventApp;
 				var doc = $(document);
 
 				if (id == 'home') {
-					if ( (win.scrollTop() + win.height()) == doc.height() ) {
+					var currentHeight = win.scrollTop() + win.height();
+					var totalHeight = doc.height();
+
+					if ( Math.abs(currentHeight - totalHeight) <= 1 ) {
+						// Somewhat hack for android, can't scroll to full height
 						// We're at the bottom of the page
 						if (t.canLoadMoreEvents()) {
 							t.loadMore();
