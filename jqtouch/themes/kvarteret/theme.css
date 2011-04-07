@@ -21,6 +21,7 @@ h1, h2 {
     padding: 10px;
     height: 45px;
     position: relative;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#555), to(black));
 }
 
 .black-translucent .toolbar {
