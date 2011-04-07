@@ -6,11 +6,20 @@ $excludeFiles = array(
   './manifest.php',
   './jqtouch/jquery.1.3.2.min.js',
   './jqtouch/jqtouch.js',
+  './debug.htaccess',
+  './.htaccess',
 );
 
 $excludeDirs = array(
   './.git/',
 );
+
+if (isset($_GET['profile']) && ($_GET['profile'] == 'jqtouch')) {
+  $excludeDirs[] = './jquery.mobile/';
+  $excludeFiles[] = './index.jquerymobile.html';
+  $excludeFiles[] = './application.jquerymobile.js';
+  $excludeFiles[] = './application.jquerymobile.css';
+}
 
 $network = array(
   //'http://et.kvarteret.no/endre/kvarteret_symfony_events/web/api',
