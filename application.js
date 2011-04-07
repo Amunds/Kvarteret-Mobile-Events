@@ -122,6 +122,27 @@ var eventApp;
 			});
 		},
 
+		loading : function (loading, description) {
+			var indicator = $('#progress');
+
+			if (loading == true) {
+				if (indicator.length == 0) {
+					// It doesn't exist, we can add it
+					if ((typeof description == 'undefined') || (typeof description != 'string') || (description == '')) {
+						description = 'Laster...';
+					}
+
+					$('.current').append('<div id="progress">' + description + '</div>');
+					indicator = $('#progress');
+					indicator.css('top', ($(window).scrollTop() + parseInt(indicator.css('top'), 10)) + 'px' );
+				}
+			} else {
+				if (indicator.length != 0) {
+					indicator.remove();
+				}
+			}
+		},
+
 		loadMore : function () {
 			var queryParams = {};
 
@@ -137,6 +158,9 @@ var eventApp;
 		},
 
 		loadEvents : function (queryParams, callback) {
+			var t = this;
+			t.loading(true);
+
 			$.retrieveJSON(eventServer + "/api/json/filteredEvents?callback=?", queryParams, function(json, status, data) {
 				//alert('isonline:' + navigator.onLine);
 				if (navigator.onLine && (status == 'cached')) {
@@ -147,6 +171,7 @@ var eventApp;
 					state.totalCount = json.totalCount;
 					state.limit = json.limit;
 					callback(json);
+					t.loading(false);
 				}
 			});
 		}
