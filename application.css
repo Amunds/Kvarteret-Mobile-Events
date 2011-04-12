@@ -76,3 +76,6 @@ p {
     /*display: inline-block;*/
 }
 
+#noConnection {
+  display: none;
+}
