@@ -37,7 +37,10 @@ var eventApp;
 
 			refreshBtn = $('#refreshEvents');
 			refreshBtn.click(function () {
-				eventApp.refresh();
+				if (t.isOnline()) {
+					t.clearCache();
+				}
+				t.refresh();
 			});
 
 			jQuery(window).scrollstop(function (e) {
@@ -66,7 +69,7 @@ var eventApp;
 				}
 			});
 
-			eventApp.refresh();
+			refreshBtn.click();
 		},
 
 		addEventsToList : function (data, clear) {
@@ -109,6 +112,7 @@ var eventApp;
 
 		refresh : function () {
 			var queryParams = {};
+			var t = this;
 
 			state.offset = 0;
 			state.totalCount = 0;
@@ -116,9 +120,9 @@ var eventApp;
 			queryParams.limit = state.limit;
 			queryParams.offset = state.offset;
 
-			eventApp.loadEvents(queryParams, function (data) {
-				eventApp.addEventsToList(data, true);
-				eventApp.canLoadMoreEvents(true);
+			t.loadEvents(queryParams, function (data) {
+				t.addEventsToList(data, true);
+				t.canLoadMoreEvents(true);
 			});
 		},
 
@@ -145,35 +149,103 @@ var eventApp;
 
 		loadMore : function () {
 			var queryParams = {};
+			var t = this;
 
 			if (!eventApp.canLoadMoreEvents()) return false;
 
 			queryParams.limit = state.limit;
 			queryParams.offset = state.offset + state.limit;
 
-			eventApp.loadEvents(queryParams, function (data) {
-				eventApp.addEventsToList(data);
-				eventApp.canLoadMoreEvents(true);
+			t.loadEvents(queryParams, function (data) {
+				t.addEventsToList(data);
+				t.canLoadMoreEvents(true);
 			});
+		},
+		
+		isOnline : function () {
+			if (navigator.onLine) {
+				return true;
+			} else {
+				return false;
+			}
 		},
 
 		loadEvents : function (queryParams, callback) {
 			var t = this;
 			t.loading(true);
+			
+			var requestKey = b64_md5(JSON.stringify(queryParams));
 
-			$.retrieveJSON(eventServer + "/api/json/filteredEvents?callback=?", queryParams, function(json, status, data) {
-				//alert('isonline:' + navigator.onLine);
-				if (navigator.onLine && (status == 'cached')) {
-					return null;
-				} else {
-					//alert('will render');
+			//alert(t.isOnline());
+			$('#noConnection').hide();
+
+			if (t.isOnline()) {
+				$.ajax({
+					url: eventServer + "/api/json/filteredEvents?callback=?",
+					dataType: 'json',
+					data: queryParams,
+					success: function (json) {
+						state.offset = json.offset;
+						state.totalCount = json.totalCount;
+						state.limit = json.limit;
+					
+						t.setCache(requestKey, JSON.stringify(json));
+					
+						callback(json);
+						t.loading(false);
+					},
+					error: function () {
+						t.loading(false);
+						$('#noConnection').show();
+					},
+					timeout: 5000
+				});
+			} else {
+				var json = t.getCache(requestKey);
+
+				if ((json != false) && (json != null)) {
+					json = JSON.parse(json);
+
 					state.offset = json.offset;
 					state.totalCount = json.totalCount;
 					state.limit = json.limit;
+
 					callback(json);
-					t.loading(false);
+				} else {
+					$('#noConnection').show();
 				}
-			});
+
+				t.loading(false);
+			}
+		},
+		
+		getCache : function (key) {
+			if (!window.localStorage) return;
+
+			return localStorage.getItem(key);
+		},
+
+		deleteCache : function (key) {
+			if (!window.localStorage) return;
+
+			return localStorage.removeItem(key);
+		},
+
+		setCache : function (key, value) {
+			if (!window.localStorage) return;
+			// Value should be of kind string
+
+			return localStorage.setItem(key, value);
+		},
+		
+		clearCache : function () {
+			if (!window.localStorage) return;
+			
+			localStorage.clear();
+		},
+		
+		hasCache : function () {
+			return (typeof window.localStorage != 'undefined');
 		}
 	};
 })(jQuery);
