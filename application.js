@@ -120,11 +120,13 @@ var eventApp;
 			if ((state.offset + state.limit) < state.totalCount) {
 				if (setButtonStatus == true) {
 					loadMoreBtn.removeClass('disabled');
+					$('#noMoreEvents').hide();
 				}
 				return true;
 			} else {
 				if (setButtonStatus == true) {
 					loadMoreBtn.addClass('disabled');
+					$('#noMoreEvents').show();
 				}
 				return false;
 			}
