@@ -46,7 +46,7 @@ p {
   padding-right: 10px;
 }
 
-#loadMoreEvents.disabled {
+#loadMoreBtn.disabled {
   display: none;
 }
 
@@ -76,6 +76,7 @@ p {
     /*display: inline-block;*/
 }
 
-#noConnection {
+.hide
+{
   display: none;
 }

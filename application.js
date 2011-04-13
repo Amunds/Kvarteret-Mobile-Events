@@ -42,6 +42,12 @@ var eventApp;
 				}
 				t.refresh();
 			});
+			
+			loadMoreBtn = $('#loadMoreBtn');
+			loadMoreBtn.click(function (e) {
+				t.loadMore();
+				e.preventDefault();
+			});
 
 			jQuery(window).scrollstop(function (e) {
 				/**
@@ -70,6 +76,14 @@ var eventApp;
 			});
 
 			refreshBtn.click();
+
+			if (!t.hasCache()) {
+				$('#noLocalstorage').show();
+			}
+
+			if (navigator.userAgent.search(/opera mini/i) > -1) {
+				loadMoreBtn.removeClass('hide');
+			}
 		},
 
 		addEventsToList : function (data, clear) {
@@ -104,8 +118,14 @@ var eventApp;
 
 		canLoadMoreEvents : function (setButtonStatus) {
 			if ((state.offset + state.limit) < state.totalCount) {
+				if (setButtonStatus == true) {
+					loadMoreBtn.removeClass('disabled');
+				}
 				return true;
 			} else {
+				if (setButtonStatus == true) {
+					loadMoreBtn.addClass('disabled');
+				}
 				return false;
 			}
 		},
@@ -188,9 +208,9 @@ var eventApp;
 						state.offset = json.offset;
 						state.totalCount = json.totalCount;
 						state.limit = json.limit;
-					
+
 						t.setCache(requestKey, JSON.stringify(json));
-					
+
 						callback(json);
 						t.loading(false);
 					},
