@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="nb" manifest="manifest.php">
+<html lang="nb" manifest="manifest.php?profile=jquerymobile">
 <!--<html lang="nb">-->
   <head>
     <meta charset="utf-8">
@@ -26,8 +26,21 @@
       </div>
 
       <div data-role="content">
+        <ul data-role="listview" data-inset="true">
+          <li id="noLocalstorage" class="hide">Kan ikke brukes i offlinemodus, ingen tilgang på lokal mellomlagring.</li>
+          <li id="noLocalstorage" class="hide">Får ikke kontakt med serveren. Sjekk om du er online.</li>
+        </ul>
+        <div class="info hide" >
+          <span></span>
+        </div>
+        <div class="info hide" id="noConnection">
+          <span></span>
+        </div>
         <ul id="items" data-role="listview">
-          <li><em>Laster events...</em></li>
+        </ul>
+        <button id="loadMoreBtn" type="button" class="hide" disabled="disabled">Last flere</button>
+        <ul data-role="listview" data-inset="true">
+          <li id="noMoreEvents" class="hide">Fant ikke flere events.</li>
         </ul>
       </div>
     </div>
@@ -46,24 +59,24 @@
               ${formatTime(startTime)} - ${formatDate(startDate)} til ${formatTime(endTime)} - ${formatDate(endDate)}
             {{/if}}<br>
             <b>Hvor:</b> {{if location_id > 0}} ${commonLocation.name} {{else}} ${customLocation} {{/if}}
+            <br /><b>Arrangør:</b> ${arranger.name}
+            {{if (covercharge != null) && (covercharge.length > 0) }}<br /><b>CC:</b> ${covercharge}{{/if}}
           </p>
-          <p>
-            {{html leadParagraph}}
-          </p>
+          <p>{{html leadParagraph}}</p>
           {{html description}}
         </div>
       </div>
     </script>
     <script type="text/html" id="item_template">
       <li>
-        <a href='#event_${id}' id='${id}'>
+        <a href='#event_${id}' id='eventitem_${id}'>
           <span class="event_title">${title}</span>
           <span class="small_subinfo">
             {{each categories}}
               ${$value.name}{{if $index < categories.length-1}}, {{/if}}
             {{/each}}
             i {{if location_id > 0}} ${commonLocation.name} {{else}} ${customLocation} {{/if}}
-            {{if (covercharge != null) && (covercharge.length > 0) }}<br /><b>CC:</b> ${covercharge}{{/if}}
+            <br>${arranger.name}
           </span>
           <span class="small_subinfo with_date">
             ${formatTime(startTime)}

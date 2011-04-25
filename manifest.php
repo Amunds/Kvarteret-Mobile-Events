@@ -19,6 +19,9 @@ if (isset($_GET['profile']) && ($_GET['profile'] == 'jqtouch')) {
   $excludeFiles[] = './index.jquerymobile.html';
   $excludeFiles[] = './application.jquerymobile.js';
   $excludeFiles[] = './application.jquerymobile.css';
+} else if (isset($_GET['profile']) && ($_GET['profile'] == 'jquerymobile')) {
+  $excludeDirs[] = './jqtouch/';
+  $excludeFiles[] = './jquery.mobevents.js';
 }
 
 $network = array(

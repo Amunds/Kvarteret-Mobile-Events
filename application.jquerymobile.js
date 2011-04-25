@@ -39,6 +39,16 @@ var eventApp;
 			refreshBtn.click(function () {
 				eventApp.refresh();
 			});
+			
+			loadMoreBtn = $('#loadMoreBtn');
+			loadMoreBtn.click(function (e) {
+				t.loadMore();
+				e.preventDefault();
+			});
+
+			if (navigator.userAgent.search(/opera mini/i) > -1) {
+				loadMoreBtn.removeClass('hide');
+			}
 
 			jQuery(window).scrollstop(function (e) {
 				/**
@@ -97,10 +107,18 @@ var eventApp;
 			$(".event").page();
 		},
 
-		canLoadMoreEvents : function () {
+		canLoadMoreEvents : function (setButtonStatus) {
 			if ((state.offset + state.limit) < state.totalCount) {
+				if (setButtonStatus == true) {
+					loadMoreBtn.attr('disabled', false);
+					$('#noMoreEvents').addClass('hide');
+				}
 				return true;
 			} else {
+				if (setButtonStatus == true) {
+					loadMoreBtn.attr('disabled', true);
+					$('#noMoreEvents').removeClass('hide');
+				}
 				return false;
 			}
 		},
@@ -116,7 +134,7 @@ var eventApp;
 
 			eventApp.loadEvents(queryParams, function (data) {
 				eventApp.addEventsToList(data, true);
-				eventApp.canLoadMoreEvents();
+				eventApp.canLoadMoreEvents(true);
 			});
 		},
 
@@ -128,7 +146,7 @@ var eventApp;
 
 			eventApp.loadEvents(queryParams, function (data) {
 				eventApp.addEventsToList(data);
-				eventApp.canLoadMoreEvents();
+				eventApp.canLoadMoreEvents(true);
 			});
 		},
 
