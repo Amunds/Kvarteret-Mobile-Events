@@ -78,7 +78,7 @@ var eventApp;
 			refreshBtn.click();
 
 			if (!t.hasCache()) {
-				$('#noLocalstorage').show();
+				$('#noLocalstorage').removeClass('hide');
 			}
 
 			if (navigator.userAgent.search(/opera mini/i) > -1) {
@@ -120,13 +120,13 @@ var eventApp;
 			if ((state.offset + state.limit) < state.totalCount) {
 				if (setButtonStatus == true) {
 					loadMoreBtn.removeClass('disabled');
-					$('#noMoreEvents').hide();
+					$('#noMoreEvents').addClass('hide');
 				}
 				return true;
 			} else {
 				if (setButtonStatus == true) {
 					loadMoreBtn.addClass('disabled');
-					$('#noMoreEvents').show();
+					$('#noMoreEvents').removeClass('hide');
 				}
 				return false;
 			}
@@ -218,7 +218,7 @@ var eventApp;
 					},
 					error: function () {
 						t.loading(false);
-						$('#noConnection').show();
+						$('#noConnection').removeClass('hide');
 					},
 					timeout: 5000
 				});
@@ -234,7 +234,7 @@ var eventApp;
 
 					callback(json);
 				} else {
-					$('#noConnection').show();
+					$('#noConnection').removeClass('hide');
 				}
 
 				t.loading(false);
