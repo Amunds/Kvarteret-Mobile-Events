@@ -139,6 +139,7 @@
                 touchSelectors.push(jQTSettings.submitSelector);
                 $(touchSelectors.join(', ')).css('-webkit-touch-callout', 'none');
                 $(jQTSettings.backSelector).tap(liveTap);
+                //$(jQTSettings.backSelector).click(liveTap);
                 $(jQTSettings.submitSelector).tap(submitParentForm);
 
                 $body = $('body');
@@ -196,6 +197,8 @@
         // PUBLIC FUNCTIONS
         function goBack(to) {
             // Init the param
+            console.log('goes back, hist length: ' + hist.length);
+            //console.trace();
             if (hist.length > 1) {
                 var numberOfPages = Math.min(parseInt(to || 1, 10), hist.length-1);
 
@@ -218,6 +221,10 @@
                 var animation = hist[0].animation;
                 var fromPage = hist[0].page;
 
+                // add call for scrollTo -restoring last position of page
+                var yPosition = hist[0].position ? hist[0].position : 0;
+                console.log('will scroll to: ' + yPosition);
+
                 // Remove all pages in front of the target page
                 hist.splice(0, numberOfPages);
 
@@ -226,6 +233,9 @@
 
                 // Make the animations
                 animatePages(fromPage, toPage, animation, true);
+                
+                // Will only work if animation is disabled
+                window.scrollTo( 0, yPosition);
                 
                 return publicObj;
             } else {
@@ -248,8 +258,12 @@
                     }
                 }
             }
+            // Eugene: get scrollTop value before animating
+            var scrollTop = $(window).scrollTop();
             if (animatePages(fromPage, toPage, animation)) {
-                addPageToHistory(toPage, animation);
+                //addPageToHistory(toPage, animation);
+                // Eugene: added argument with last y-position (scrollTop)
+                addPageToHistory(toPage, animation, scrollTop);
                 return publicObj;
             }
             else
@@ -300,6 +314,7 @@
             }
             // User clicked a back button
             else if ($el.is(jQTSettings.backSelector)) {
+                console.log('pushed back button');
                 goBack(hash);
             }
             // Branch on internal or external href
@@ -318,7 +333,8 @@
             }
             return false;
         }
-        function addPageToHistory(page, animation) {
+        // Eugene: added argument scrollTop - position of last page
+        function addPageToHistory(page, animation, scrollTop) {
             // Grab some info
             var pageId = page.attr('id');
 
@@ -326,8 +342,11 @@
             hist.unshift({
                 page: page, 
                 animation: animation, 
-                id: pageId
+                id: pageId,
+                position: scrollTop
             });
+            console.log('addedd to history  pos: ' + scrollTop + ', num in hist: ' + hist.length);
+            //console.trace();
         }
         function animatePages(fromPage, toPage, animation, backwards) {
             // Error check for target page
