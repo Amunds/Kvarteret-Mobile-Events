@@ -20,7 +20,7 @@ function formatTime(timeString) {
   return hour + ':' + minute;
 }
 
-
+// Taken from http://ednortonengineeringsociety.blogspot.com/2010/10/detecting-offline-status-in-html-5.html
 function checkNetworkStatus(callback, async) {
 	if (typeof async != 'boolean') {
 		async = true;
