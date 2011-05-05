@@ -8,6 +8,7 @@ $excludeFiles = array(
   './jqtouch/jqtouch.js',
   './debug.htaccess',
   './.htaccess',
+  './ping.js',
 );
 
 $excludeDirs = array(
@@ -19,6 +20,7 @@ if (isset($_GET['profile']) && ($_GET['profile'] == 'jqtouch')) {
   $excludeFiles[] = './index.jquerymobile.html';
   $excludeFiles[] = './application.jquerymobile.js';
   $excludeFiles[] = './application.jquerymobile.css';
+  $excludeFiles[] = './jquery.offline.js';
 } else if (isset($_GET['profile']) && ($_GET['profile'] == 'jquerymobile')) {
   $excludeDirs[] = './jqtouch/';
   $excludeFiles[] = './jquery.mobevents.js';
@@ -26,6 +28,7 @@ if (isset($_GET['profile']) && ($_GET['profile'] == 'jqtouch')) {
 
 $network = array(
   //'http://et.kvarteret.no/endre/kvarteret_symfony_events/web/api',
+  'ping.js',
   '*',
 );
 

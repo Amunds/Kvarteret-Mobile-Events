@@ -20,6 +20,46 @@ function formatTime(timeString) {
   return hour + ':' + minute;
 }
 
+
+function checkNetworkStatus(callback, async) {
+	if (typeof async != 'boolean') {
+		async = true;
+	}
+
+	if (navigator.onLine) {
+	// Just because the browser says we're online doesn't mean we're online. The browser lies.
+	// Check to see if we are really online by making a call for a static JSON resource on
+	// the originating Web site. If we can get to it, we're online. If not, assume we're
+	// offline.
+		$.ajaxSetup({
+			async: async,
+			cache: false,
+			context: $("#noConnection"),
+			dataType: "json",
+			error: function (req, status, ex) {
+				console.log("Error: " + ex);
+				// We might not be technically "offline" if the error is not a timeout, but
+				// otherwise we're getting some sort of error when we shouldn't, so we're
+				// going to treat it as if we're offline.
+				// Note: This might not be totally correct if the error is because the
+				// manifest is ill-formed.
+				$(this).removeClass('hide');
+				callback(false);
+			},
+			success: function (data, status, req) {
+				$(this).addClass('hide');
+				callback(true);
+			},
+			timeout: 5000,
+			type: "GET",
+			url: "ping.js"
+		});
+		$.ajax();
+	} else {
+		callback(false);
+	}
+}
+
 var eventApp;
 
 (function ($) {
@@ -75,6 +115,7 @@ var eventApp;
 				}
 			});
 
+			t.isOnline(true);
 			refreshBtn.click();
 
 			if (!t.hasCache()) {
@@ -184,12 +225,23 @@ var eventApp;
 			});
 		},
 		
-		isOnline : function () {
-			if (navigator.onLine) {
-				return true;
-			} else {
-				return false;
+		isOnline : function (async) {
+			var t = this;
+
+			if (!("onLine" in t)) {
+				t.onLine = navigator.onLine;
 			}
+
+			if (typeof async != "boolean") {
+				async = false;
+			}
+
+			checkNetworkStatus(function (isOnline) {
+				console.log('isOnline: ' + isOnline);
+				t.onLine = isOnline;
+			}, async);
+
+			return t.onLine;
 		},
 
 		loadEvents : function (queryParams, callback) {
@@ -199,7 +251,6 @@ var eventApp;
 			var requestKey = b64_md5(JSON.stringify(queryParams));
 
 			//alert(t.isOnline());
-			$('#noConnection').hide();
 
 			if (t.isOnline()) {
 				$.ajax({
@@ -218,7 +269,6 @@ var eventApp;
 					},
 					error: function () {
 						t.loading(false);
-						$('#noConnection').removeClass('hide');
 					},
 					timeout: 5000
 				});
@@ -233,8 +283,6 @@ var eventApp;
 					state.limit = json.limit;
 
 					callback(json);
-				} else {
-					$('#noConnection').removeClass('hide');
 				}
 
 				t.loading(false);
@@ -272,12 +320,12 @@ var eventApp;
 	};
 })(jQuery);
 
-$(document).ready(function () {
-	eventApp.init();
-});
-
 $.jQTouch({
     icon: 'jqtouch.png',
     statusBar: 'black-translucent',
     useAnimations: false,
+});
+
+$(document).ready(function () {
+	eventApp.init();
 });

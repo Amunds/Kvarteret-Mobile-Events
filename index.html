@@ -7,14 +7,30 @@
     <meta name="description" content="">
     <meta name="author" content="Webgruppen - Kvarteret">
     <!-- <script src="debug.js" type="application/x-javascript" charset="utf-8"></script> -->
+    <script type='text/javascript'>
+       // Script for detecting cache changes
+       var cache = window.applicationCache;
+
+       cache.addEventListener("error", function (e) {
+           console.log("There was an error in the manifest, downloading cached files or you're offline: " + e);
+       }, false);
+
+       cache.addEventListener("updateready", function () {
+           cache.swapCache();
+           console.log("Updated cache is ready");
+           // Even after swapping the cache the currently loaded page won't use it
+           // until it is reloaded, so force a reload so it is current.
+           window.location.reload(true);
+           console.log("Window reloaded");
+       }, false);
+    </script>
     <script src="md5.js" type="application/x-javascript" charset="utf-8"></script>
-    <script src="jquery.min.js" type="application/x-javascript" charset="utf-8"></script>
     <script src="json.js" type="application/x-javascript" charset="utf-8"></script>
-    <script src="jquery.tmpl.js" type="application/x-javascript" charset="utf-8"></script>
-    <!--<script src="jquery.offline.js" type="application/x-javascript" charset="utf-8"></script>-->
-    <script src="jquery.mobevents.js" type="application/x-javascript" charset="utf-8"></script>
+    <script src="jquery.min.js" type="application/x-javascript" charset="utf-8"></script>
     <script src="jqtouch/jqtouch.js" type="application/x-javascript" charset="utf-8"></script>
     <!--<script src="jqtouch/jqtouch.transitions.js" type="application/x-javascript" charset="utf-8"></script>-->
+    <script src="jquery.tmpl.js" type="application/x-javascript" charset="utf-8"></script>
+    <script src="jquery.mobevents.js" type="application/x-javascript" charset="utf-8"></script>
     <script src="application.js" type="application/x-javascript" charset="utf-8"></script>
     <style type="text/css" media="screen">@import "jqtouch/jqtouch.css";</style>
     <style type="text/css" media="screen">@import "jqtouch/themes/kvarteret/theme.css";</style>
