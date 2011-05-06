@@ -34,7 +34,6 @@ function checkNetworkStatus(callback, async) {
 		$.ajaxSetup({
 			async: async,
 			cache: false,
-			context: $("#noConnection"),
 			dataType: "json",
 			error: function (req, status, ex) {
 				console.log("Error: " + ex);
@@ -43,11 +42,9 @@ function checkNetworkStatus(callback, async) {
 				// going to treat it as if we're offline.
 				// Note: This might not be totally correct if the error is because the
 				// manifest is ill-formed.
-				$(this).removeClass('hide');
 				callback(false);
 			},
 			success: function (data, status, req) {
-				$(this).addClass('hide');
 				callback(true);
 			},
 			timeout: 5000,
@@ -115,7 +112,7 @@ var eventApp;
 				}
 			});
 
-			t.isOnline(true);
+			t.isOnline(false);
 			refreshBtn.click();
 
 			if (!t.hasCache()) {
@@ -202,10 +199,12 @@ var eventApp;
 					$('.current').append('<div id="progress">' + description + '</div>');
 					indicator = $('#progress');
 					indicator.css('top', ($(window).scrollTop() + parseInt(indicator.css('top'), 10)) + 'px' );
+					console.log('showing process window at ' + ($(window).scrollTop() + parseInt(indicator.css('top'), 10)) + 'px');
 				}
 			} else {
 				if (indicator.length != 0) {
-					indicator.remove();
+					console.log('removes progress window');
+					indicator.empty().remove();
 				}
 			}
 		},
@@ -233,12 +232,17 @@ var eventApp;
 			}
 
 			if (typeof async != "boolean") {
-				async = false;
+				async = true;
 			}
 
 			checkNetworkStatus(function (isOnline) {
 				console.log('isOnline: ' + isOnline);
 				t.onLine = isOnline;
+				if (isOnline == true) {
+					$('#noConnection').addClass('hide');
+				} else {
+					$('#noConnection').removeClass('hide');
+				}
 			}, async);
 
 			return t.onLine;
@@ -261,6 +265,8 @@ var eventApp;
 						state.offset = json.offset;
 						state.totalCount = json.totalCount;
 						state.limit = json.limit;
+
+						console.log('GOT RESPONSE! ' + json.count + ' elements');
 
 						t.setCache(requestKey, JSON.stringify(json));
 
