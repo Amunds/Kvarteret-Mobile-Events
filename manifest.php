@@ -4,8 +4,6 @@ error_reporting(E_ALL);
 
 $excludeFiles = array(
   './manifest.php',
-  './jqtouch/jquery.1.3.2.min.js',
-  './jqtouch/jqtouch.js',
   './debug.htaccess',
   './.htaccess',
   './ping.js',
