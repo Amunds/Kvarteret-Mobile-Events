@@ -13,13 +13,18 @@ $excludeDirs = array(
   './.git/',
 );
 
-if (isset($_GET['profile']) && ($_GET['profile'] == 'jqtouch')) {
+$profile = 'jqtouch';
+if (!empty($_GET['jqtouch'])) {
+  $profile = strval($_GET['jqtouch']);
+}
+
+if ($profile == 'jqtouch') {
   $excludeDirs[] = './jquery.mobile/';
   $excludeFiles[] = './index.jquerymobile.html';
   $excludeFiles[] = './application.jquerymobile.js';
   $excludeFiles[] = './application.jquerymobile.css';
   $excludeFiles[] = './jquery.offline.js';
-} else if (isset($_GET['profile']) && ($_GET['profile'] == 'jquerymobile')) {
+} else if ($profile == 'jquerymobile') {
   $excludeDirs[] = './jqtouch/';
   $excludeFiles[] = './jquery.mobevents.js';
 }
