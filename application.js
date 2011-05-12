@@ -273,10 +273,11 @@ var eventApp;
 						callback(json);
 						t.loading(false);
 					},
-					error: function () {
+					error: function (xhr, textStatus, errorThrown) {
+						console.log('error loading events: ' + textStatus + ' msg: ' + errorThrown);
 						t.loading(false);
 					},
-					timeout: 5000
+					timeout: 10000
 				});
 			} else {
 				var json = t.getCache(requestKey);
