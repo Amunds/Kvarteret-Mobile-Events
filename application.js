@@ -328,9 +328,14 @@ var eventApp;
 })(jQuery);
 
 $.jQTouch({
-    icon: 'jqtouch.png',
-    statusBar: 'black-translucent',
-    useAnimations: false,
+	icon: 'jqtouch.png',
+	statusBar: 'black-translucent',
+	useAnimations: false,
+	preloadimages: [
+		'jqtouch/themes/kvarteret/img/backButton.png',
+		'jqtouch/themes/kvarteret/img/refresh.png',
+		'logo.png'
+	],
 });
 
 $(document).ready(function () {
